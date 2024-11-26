@@ -17,26 +17,18 @@ Before running the project, ensure that you have the following:
 * npm install -g hardhat
 
 ### Executing the Program
-1. Start Hardhat Node: Open a terminal window and run the following command to start the local Ethereum network:
-```
-npx hardhat node
-```
+* Inside the project directory, in the terminal type: npm i
+* Open two additional terminals in your VS code
+* In the second terminal type: npx hardhat node
+* In the third terminal, type: npx hardhat run --network localhost scripts/deploy.js
+* Back in the first terminal, type npm run dev to launch the front-end.
 
-2. Deploy the contract: Open a second terminal window and deploy the smart contract:
-```
-npx hardhat run --network localhost scripts/deploy.js
-```
-
-3. Run the frontend: In the first terminal, run:
-```
-npm run dev
-```
-
-4. Setup MetaMask:
+Setup MetaMask:
 * Install the MetaMask extension in your browser.
 * Add a custom network to MetaMask:
 
 * Network Name: Choose any name
+* RPC URL: http://127.0.0.1:8545/
 * Chain ID: 31337
 * Currency Symbol: ETH
 
@@ -44,11 +36,11 @@ npm run dev
 
 Copy and paste the following code into the file:
 
-5. Import the Account:
+Import the Account:
 * Copy the private key of Account 0 from the terminal where you ran npx hardhat node.
 * Import this key into MetaMask by selecting Import Account.
 
-6. Interact with the ATM:
+Interact with the ATM:
 * Go to http://localhost:3000 in your browser to use the ATM.
 * You can connect your MetaMask wallet, view the balance, deposit, and withdraw funds (only the owner of the contract can make transactions).
 
