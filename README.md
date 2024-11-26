@@ -36,9 +36,9 @@ npm run dev
 * Install the MetaMask extension in your browser.
 * Add a custom network to MetaMask:
 
-*Network Name: Choose any name
-*Chain ID: 31337
-*Currency Symbol: ETH
+* Network Name: Choose any name
+* Chain ID: 31337
+* Currency Symbol: ETH
 
 * Switch to the network you just created in MetaMask.
 
