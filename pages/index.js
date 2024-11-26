@@ -65,6 +65,9 @@ export default function HomePage() {
     }
   };
 
+  // Define a maximum withdrawal limit (e.g., 90% of the balance)
+  const MAX_WITHDRAWAL_PERCENTAGE = 0.9;
+
   const deposit = async () => {
     try {
       if (atm) {
@@ -81,7 +84,15 @@ export default function HomePage() {
 
   const withdraw = async () => {
     try {
-      if (atm) {
+      if (atm && balance) {
+        // Check if withdrawal is less than or equal to the maximum withdrawal limit
+        let maxWithdrawAmount = ethers.utils.formatEther(balance) * MAX_WITHDRAWAL_PERCENTAGE;
+
+        if (withdrawAmount > maxWithdrawAmount) {
+          setErrorMessage(`Withdrawal amount exceeds the limit of ${maxWithdrawAmount} ETH.`);
+          return;
+        }
+
         let amount = ethers.utils.parseEther(withdrawAmount.toString());
         let tx = await atm.withdraw(amount);
         await tx.wait();
