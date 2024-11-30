@@ -6,20 +6,38 @@ pragma solidity ^0.8.9;
 contract Assessment {
     address payable public owner;
     uint256 public balance;
+    bool public paused;
 
     event Deposit(uint256 amount);
     event Withdraw(uint256 amount);
+    event Paused(bool paused);
 
     constructor(uint initBalance) payable {
         owner = payable(msg.sender);
         balance = initBalance;
+        paused = false; // contract starts in an unpaused state
     }
 
-    function getBalance() public view returns(uint256){
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You are not the owner of this account");
+        _;
+    }
+
+    modifier whenNotPaused() {
+        require(!paused, "Contract is paused");
+        _;
+    }
+
+    modifier whenPaused() {
+        require(paused, "Contract is not paused");
+        _;
+    }
+
+    function getBalance() public view returns(uint256) {
         return balance;
     }
 
-    function deposit(uint256 _amount) public payable {
+    function deposit(uint256 _amount) public payable whenNotPaused {
         uint _previousBalance = balance;
 
         // make sure this is the owner
@@ -38,7 +56,7 @@ contract Assessment {
     // custom error
     error InsufficientBalance(uint256 balance, uint256 withdrawAmount);
 
-    function withdraw(uint256 _withdrawAmount) public {
+    function withdraw(uint256 _withdrawAmount) public whenNotPaused {
         require(msg.sender == owner, "You are not the owner of this account");
         uint _previousBalance = balance;
         if (balance < _withdrawAmount) {
@@ -56,5 +74,11 @@ contract Assessment {
 
         // emit the event
         emit Withdraw(_withdrawAmount);
+    }
+
+    // Owner can pause or unpause the contract
+    function togglePause() public onlyOwner whenPaused {
+        paused = !paused;
+        emit Paused(paused);
     }
 }
